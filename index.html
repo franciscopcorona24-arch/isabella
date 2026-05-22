@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>isabella</title>
+    <style>
+        /* Fondo oscuro profundo con un toque de azul marino */
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #030310; /* Un negro casi azulado */
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            height: 100svh; /* Solución para iPhone 16: evita descuadres por las barras de Safari */
+            color: #f0f0f0;
+        }
+
+        /* Pantalla de bienvenida / Pregunta */
+        #welcome-screen {
+            position: absolute;
+            z-index: 10;
+            text-align: center;
+            background: rgba(8, 8, 25, 0.97);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); /* Brillo morado */
+            border: 2px solid rgba(138, 43, 226, 0.2);
+            transition: opacity 1s ease;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            color: #d8b4fe; /* Morado muy claro */
+        }
+
+        input {
+            padding: 14px 22px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            border: 2px solid #a78bfa; /* Morado claro */
+            background: #0d0d21;
+            color: #f0f0f0;
+            outline: none;
+            text-align: center;
+            width: 80%;
+            max-width: 280px;
+            margin-bottom: 25px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #c084fc; /* Rosa-morado al enfocar */
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            /* Degradado de azul claro a rosa */
+            background: linear-gradient(45deg, #a78bfa, #fda4af); 
+            color: #030310;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(253, 164, 175, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.96);
+            box-shadow: 0 3px 10px rgba(253, 164, 175, 0.3);
+        }
+
+        /* El contenedor que orbitará en círculos */
+        #orbit-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: none; /* Se activa tras poner el nombre */
+        }
+
+        /* Estilo para cada palabra flotante del corazón */
+        .text-piece {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            font-weight: bold;
+            font-size: 15px;
+            
+            /* DEGRADADO ANIMADO DEL TEXTO */
+            /* 1. Definimos el degradado de los tres colores */
+            background-image: linear-gradient(45deg, #a78bfa, #fda4af, #38bdf8, #a78bfa);
+            background-size: 400% 400%; /* Hacemos el degradado más grande para que se mueva */
+            
+            /* 2. Recortamos el degradado solo al texto */
+            -webkit-background-clip: text;
+            background-clip: text;
+            
+            /* 3. Hacemos que el color de texto sea transparente para mostrar el fondo */
+            color: transparent;
+            
+            /* 4. Aplicamos la animación del degradado */
+            animation: gradientFlow 10s ease infinite;
+
+            /* Brillo de neón */
+            text-shadow: 0 0 10px rgba(253, 164, 175, 0.6); 
+            white-space: nowrap;
+        }
+
+        /* Animación para que el degradado del texto se mueva (efecto neón) */
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <h2>Introduce tu nombre</h2>
+        <input type="text" id="name-input" placeholder="Tu nombre..." autocomplete="off">
+        <br>
+        <button onclick="startSurprise()">Aceptar</button>
+    </div>
+
+    <div id="orbit-container"></div>
+
+    <script>
+        function startSurprise() {
+            const nameInput = document.getElementById('name-input').value.trim();
+            
+            if (nameInput === "") {
+                alert("¡Por favor, escribe tu nombre! (Te prometo que valdrá la pena)");
+                return;
+            }
+
+            // Desvanecer la pantalla de bienvenida
+            const welcome = document.getElementById('welcome-screen');
+            welcome.style.opacity = '0';
+            
+            setTimeout(() => {
+                welcome.style.display = 'none';
+                generateHeart(nameInput);
+            }, 1000);
+        }
+
+        function generateHeart(name) {
+            const container = document.getElementById('orbit-container');
+            container.style.display = 'block';
+            
+            const totalPieces = 85; // Cantidad de nombres
+            
+            // Amplitud del círculo (órbita)
+            const orbitRadiusX = 40; 
+            const orbitRadiusY = 40; 
+
+            // Animación CSS para que el corazón orbite en círculos
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes rotateInCircle {
+                    0% { transform: translate(0px, 0px); }
+                    25% { transform: translate(${orbitRadiusX}px, ${orbitRadiusY}px); }
+                    50% { transform: translate(0px, ${orbitRadiusY * 2}px); }
+                    75% { transform: translate(-${orbitRadiusX}px, ${orbitRadiusY}px); }
+                    100% { transform: translate(0px, 0px); }
+                }
+                #orbit-container {
+                    animation: rotateInCircle 12s infinite linear; /* Rotación más lenta y suave */
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Generar el corazón con la ecuación
+            for (let i = 0; i < totalPieces; i++) {
+                const t = (i / totalPieces) * 2 * Math.PI;
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+                const scale = 13.5; 
+
+                const span = document.createElement('span');
+                span.className = 'text-piece';
+                span.innerText = name ;
+                
+                span.style.transform = `translate(calc(-50% + ${x * scale}px), calc(-50% + ${y * scale}px))`;
+                
+                // Retraso individual para que el degradado parezca que fluye a través del corazón
+                span.style.animationDelay = `${i * 0.05}s`;
+
+                container.appendChild(span);
+            }
+        }
+    </script>
+</body>
+</html>
