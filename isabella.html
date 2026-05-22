@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>isabella</title>
+    <title>Para Alguien Especial</title>
     <style>
         
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #030310; 
+            background-color: #030310;
             font-family: 'Poppins', 'Segoe UI', sans-serif;
             display: flex;
             justify-content: center;
@@ -19,7 +19,6 @@
             color: #f0f0f0;
         }
 
-        
         #welcome-screen {
             position: absolute;
             z-index: 10;
@@ -59,7 +58,7 @@
         button {
             padding: 12px 30px;
             font-size: 1.1rem;
-
+            /* Degradado de azul claro a rosa */
             background: linear-gradient(45deg, #a78bfa, #fda4af); 
             color: #030310;
             font-weight: bold;
@@ -91,26 +90,21 @@
             font-weight: bold;
             font-size: 15px;
             
-            
             background-image: linear-gradient(45deg, #a78bfa, #fda4af, #38bdf8, #a78bfa);
             background-size: 400% 400%; 
             
-
             -webkit-background-clip: text;
             background-clip: text;
             
-            
             color: transparent;
-            
             
             animation: gradientFlow 10s ease infinite;
 
-            
             text-shadow: 0 0 10px rgba(253, 164, 175, 0.6); 
             white-space: nowrap;
         }
 
-
+        
         @keyframes gradientFlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -139,7 +133,6 @@
                 return;
             }
 
-           
             const welcome = document.getElementById('welcome-screen');
             welcome.style.opacity = '0';
             
@@ -155,11 +148,9 @@
             
             const totalPieces = 85; 
             
-            
             const orbitRadiusX = 40; 
             const orbitRadiusY = 40; 
 
-            
             const style = document.createElement('style');
             style.innerHTML = `
                 @keyframes rotateInCircle {
@@ -175,7 +166,6 @@
             `;
             document.head.appendChild(style);
 
-            
             for (let i = 0; i < totalPieces; i++) {
                 const t = (i / totalPieces) * 2 * Math.PI;
                 const x = 16 * Math.pow(Math.sin(t), 3);
